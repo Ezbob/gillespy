@@ -1,3 +1,6 @@
+##### Note from the forker:
+The original version was created for Python version 2, this fork is focusing on bringing GillesPy to Python version 3
+
 #GillesPy
 
 GillesPy is a modeling toolkit for stochastic simulations for Linux and OSX. It provides a python interface to the StochKit stochastic simulation solvers. It contains a simple python interface for model construction, editing, and simulating models stochastically and deterministically.
