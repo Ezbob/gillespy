@@ -14,15 +14,15 @@ def stoch_path(command_subclass):
     It modifies the run() method.
     """
     orig_run = command_subclass.run
-    
+
     def modified_run(self):
-      
+
         success=False
         cmd = "echo 'from .gillespy import *' > {0}/gillespy/__init__.py".format(SETUP_DIR)
         cmd += "\necho 'import os' >> {0}/gillespy/__init__.py".format(SETUP_DIR)
         if os.environ.get('STOCHSS_HOME') is not None:
             cmd += "\necho 'os.environ[\"PATH\"] += os.pathsep + \"{0}/StochKit/\"' >> {1}/gillespy/__init__.py".format(os.path.abspath(os.environ['STOCHSS_HOME']),SETUP_DIR)
-            cmd += "\necho 'os.environ[\"PATH\"] += os.pathsep + \"{0}/ode/\"' >> {1}/gillespy/__init__.py".format(os.path.abspath(os.environ['STOCHSS_HOME']),SETUP_DIR)            
+            cmd += "\necho 'os.environ[\"PATH\"] += os.pathsep + \"{0}/ode/\"' >> {1}/gillespy/__init__.py".format(os.path.abspath(os.environ['STOCHSS_HOME']),SETUP_DIR)
             success=True
         if os.environ.get('STOCHKIT_HOME') is not None:
             cmd += "\necho 'os.environ[\"PATH\"] += os.pathsep + \"{0}\"' >> {1}/gillespy/__init__.py".format(os.path.abspath(os.environ['STOCHKIT_HOME']),SETUP_DIR)
@@ -32,11 +32,11 @@ def stoch_path(command_subclass):
             success=True
         if success is False:
            raise Exception("StochKit not found, to simulate GillesPy models either StochKit solvers or StochSS must to be installed")
-        
+
         try:
             subprocess.check_call(cmd,shell=True)
         except(subprocess.CalledProcessError,OSError) as e:
-            print "It didn't work {0}".format(e)
+            print("It didn't work {0}".format(e))
             raise SystemExit
         orig_run(self)
     command_subclass.run = modified_run
@@ -68,11 +68,11 @@ setup(name = "gillespy",
       version = "1.0",
       packages = ['gillespy'],
       description = 'Python interface to the Gillespie StochKit2 solvers',
-      
+
       install_requires = ["numpy",
                           "matplotlib",
                           "scipy"],
-      
+
       author = "John H. Abel, Brian Drawert, Andreas Hellander",
       author_email = ["jhabel01@gmail.com", "briandrawert@gmail.com", "andreas.hellander@gmail.com"],
       license = "GPL",
@@ -81,10 +81,10 @@ setup(name = "gillespy",
       url = "http://www.github.com/JohnAbel/GillesPy", # we don't really yet have one
 
       download_url = "https://github.com/JohnAbel/GillesPy/tarball/master/",
-      
+
       cmdclass = {'bdist_egg':bdist_egg_new,
                   'install':install_new,
                   'develop':develop_new,
                   'easy_install':easy_install_new}
-      
+
       )
